@@ -1,5 +1,5 @@
 # SpringKube
-Spring WebFlux + Reactive Mongo + Kubernetes + Windows 11
+Java 21 + Spring WebFlux + Reactive Mongo + Kubernetes + Windows 11
 
 # Complete Guide to Deploying the Project
 
