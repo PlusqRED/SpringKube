@@ -5,6 +5,21 @@ Spring WebFlux + Reactive Mongo + Kubernetes + Windows 11
 
 ## Prerequisites
 
+## Project Overview
+* Application: A Java Spring Boot app deployed on Kubernetes.
+* Reader Deployment:
+   * Replicas: 2
+   * Purpose: Handles GET requests to retrieve products.
+* Writer Deployment:
+   * Replicas: 1
+   * Purpose: Handles POST requests to add new products.
+* NGINX Proxy:
+   * Routes requests based on HTTP method:
+   * GET requests go to the reader service.
+   * POST requests go to the writer service.
+
+This setup separates read and write operations, optimizing performance and scalability.
+
 Ensure you have the following tools installed:
 
 - **Java 21 (JDK 21)**
