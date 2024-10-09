@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-app-reader
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: demo-app
+      role: reader
+  template:
+    metadata:
+      labels:
+        app: demo-app
+        role: reader
+    spec:
+      containers:
+        - name: demo-app
+          image: localhost:5000/demo-app:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: app.instance.role
+              value: reader
+            - name: spring.data.mongodb.uri
+              value: mongodb://mongodb-service:27017/demo
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-app-writer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo-app
+      role: writer
+  template:
+    metadata:
+      labels:
+        app: demo-app
+        role: writer
+    spec:
+      containers:
+        - name: demo-app
+          image: localhost:5000/demo-app:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: app.instance.role
+              value: writer
+            - name: spring.data.mongodb.uri
+              value: mongodb://mongodb-service:27017/demo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-app-reader-service
+spec:
+  selector:
+    app: demo-app
+    role: reader
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-app-writer-service
+spec:
+  selector:
+    app: demo-app
+    role: writer
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP

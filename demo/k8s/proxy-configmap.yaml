@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: method-proxy-config
+data:
+  default.conf: |
+    server {
+        listen 80;
+        server_name _;
+
+        location / {
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+
+            if ($request_method = 'GET') {
+                proxy_pass http://demo-app-reader-service:8080;
+                break;
+            }
+
+            if ($request_method = 'POST') {
+                proxy_pass http://demo-app-writer-service:8080;
+                break;
+            }
+
+            return 405;
+        }
+    }

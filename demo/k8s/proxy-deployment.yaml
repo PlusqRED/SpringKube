@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: method-proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: method-proxy
+  template:
+    metadata:
+      labels:
+        app: method-proxy
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/conf.d
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: method-proxy-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: method-proxy-service
+spec:
+  selector:
+    app: method-proxy
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
