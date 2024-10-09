@@ -3,8 +3,6 @@ Java 21 + Spring WebFlux + Reactive Mongo + Kubernetes + Windows 11
 
 # Complete Guide to Deploying the Project
 
-## Prerequisites
-
 ## Project Overview
 * Application: A Java Spring Boot app deployed on Kubernetes.
 * Reader Deployment:
@@ -20,6 +18,7 @@ Java 21 + Spring WebFlux + Reactive Mongo + Kubernetes + Windows 11
 
 This setup separates read and write operations, optimizing performance and scalability.
 
+## Prerequisites
 Ensure you have the following tools installed:
 
 - **Java 21 (JDK 21)**
